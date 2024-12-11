@@ -14,7 +14,7 @@ const CustomButton: FunctionComponent<CustomButtonProps> = ({
     ...rest
 }) => {
     return (
-        <CustomButtonContainer>
+        <CustomButtonContainer {...rest}>
             {startIcon && <IconContainer>{startIcon}</IconContainer>}
             {children}
         </CustomButtonContainer>
