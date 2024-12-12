@@ -1,5 +1,11 @@
 import { BsGoogle } from "react-icons/bs";
 import { FiLogIn } from "react-icons/fi";
+import {
+    AuthError,
+    AuthErrorCodes,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../config/firebase.config";
 
 // Components
 import Header from "../../components/header/header.component";
@@ -26,12 +32,33 @@ interface LoginForm {
 const LoginPage = () => {
     const {
         register,
-        formState: { errors },
         handleSubmit,
+        setError,
+        formState: { errors },
     } = useForm<LoginForm>();
 
-    const handleSubmitPress = (data: LoginForm) => {
-        console.log(data);
+    const handleSubmitPress = async (data: LoginForm) => {
+        try {
+            const userCredentials = await signInWithEmailAndPassword(
+                auth,
+                data.email,
+                data.password
+            );
+            console.log(userCredentials);
+        } catch (error) {
+            console.log(error);
+            const _error = error as AuthError;
+
+            if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
+                setError("password", {
+                    type: "mismatch",
+                });
+                setError("email", {
+                    type: "mismatch",
+                });
+                return false;
+            }
+        }
     };
 
     return (
@@ -87,6 +114,12 @@ const LoginPage = () => {
                                 A senha é obrigatória.
                             </InputErrorMessage>
                         )}
+
+                        {errors?.password?.type === "mismatch" && (
+                            <InputErrorMessage>
+                                E-mail ou Senha inválidos.
+                            </InputErrorMessage>
+                        )}
                     </LoginInputContainer>
 
                     <CustomButton
@@ -102,3 +135,6 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+function singleSignIn(email: string, password: string) {
+    throw new Error("Function not implemented.");
+}
