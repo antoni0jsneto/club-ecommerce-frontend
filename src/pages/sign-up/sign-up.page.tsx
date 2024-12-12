@@ -3,7 +3,11 @@
 import { FiLogIn } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import validator from "validator";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    AuthError,
+    AuthErrorCodes,
+    createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 
 // Components
@@ -37,6 +41,7 @@ const SignUpPage = () => {
         formState: { errors },
         handleSubmit,
         watch,
+        setError,
     } = useForm<SignUpForm>();
 
     const watchPassword = watch("password");
@@ -56,7 +61,13 @@ const SignUpPage = () => {
                 email: userCredencials.user.email,
             });
         } catch (error) {
-            console.log(error);
+            const _error = error as AuthError;
+
+            if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+                return setError("email", {
+                    type: "alreadyInUse",
+                });
+            }
         }
     };
 
@@ -127,6 +138,12 @@ const SignUpPage = () => {
                                 Por favor, insira um e-mail válido.
                             </InputErrorMessage>
                         )}
+
+                        {errors?.email?.type === "alreadyInUse" && (
+                            <InputErrorMessage>
+                                Este e-mail já está sendo usado.
+                            </InputErrorMessage>
+                        )}
                     </SignUpInputContainer>
 
                     <SignUpInputContainer>
@@ -135,12 +152,21 @@ const SignUpPage = () => {
                             hasError={!!errors?.password}
                             placeholder="Digite sua senha"
                             type="password"
-                            {...register("password", { required: true })}
+                            {...register("password", {
+                                required: true,
+                                minLength: 6,
+                            })}
                         />
 
                         {errors?.password?.type === "required" && (
                             <InputErrorMessage>
                                 A senha é obrigatória.
+                            </InputErrorMessage>
+                        )}
+
+                        {errors?.password?.type === "minLength" && (
+                            <InputErrorMessage>
+                                A senha precisa ter no mínimo 6 caracteres.
                             </InputErrorMessage>
                         )}
                     </SignUpInputContainer>
@@ -153,6 +179,7 @@ const SignUpPage = () => {
                             type="password"
                             {...register("passwordConfirmation", {
                                 required: true,
+                                minLength: 6,
                                 validate: (value) => {
                                     return value === watchPassword;
                                 },
@@ -169,6 +196,13 @@ const SignUpPage = () => {
                             <InputErrorMessage>
                                 A confirmação de senha precisa ser igual a
                                 senha.
+                            </InputErrorMessage>
+                        )}
+
+                        {errors?.password?.type === "minLength" && (
+                            <InputErrorMessage>
+                                A confirmação de senha precisa ter no mínimo 6
+                                caracteres.
                             </InputErrorMessage>
                         )}
                     </SignUpInputContainer>
