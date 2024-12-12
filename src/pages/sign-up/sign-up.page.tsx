@@ -3,6 +3,8 @@
 import { FiLogIn } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import validator from "validator";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 
 // Components
 import CustomButton from "../../components/custom-button/custom-button.component";
@@ -18,8 +20,11 @@ import {
     SignUpInputContainer,
 } from "./sign-up.styles";
 
+// Utilities
+import { auth, db } from "../../config/firebase.config";
+
 interface SignUpForm {
-    name: string;
+    firstName: string;
     lastName: string;
     email: string;
     password: string;
@@ -36,8 +41,23 @@ const SignUpPage = () => {
 
     const watchPassword = watch("password");
 
-    const handleSubmitPress = (data: SignUpForm) => {
-        console.log(data);
+    const handleSubmitPress = async (data: SignUpForm) => {
+        try {
+            const userCredencials = await createUserWithEmailAndPassword(
+                auth,
+                data.email,
+                data.password
+            );
+
+            await addDoc(collection(db, "users"), {
+                id: userCredencials.user.uid,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: userCredencials.user.email,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -51,14 +71,14 @@ const SignUpPage = () => {
                     <SignUpInputContainer>
                         <p>Nome</p>
                         <CustomInput
-                            hasError={!!errors?.name}
+                            hasError={!!errors?.firstName}
                             placeholder="Digite seu nome"
-                            {...register("name", {
+                            {...register("firstName", {
                                 required: true,
                             })}
                         />
 
-                        {errors?.name?.type === "required" && (
+                        {errors?.firstName?.type === "required" && (
                             <InputErrorMessage>
                                 O nome é obrigatório.
                             </InputErrorMessage>
