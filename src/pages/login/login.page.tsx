@@ -14,8 +14,20 @@ import {
     LoginInputContainer,
     LoginSubtitle,
 } from "./login.styles";
+import { useForm } from "react-hook-form";
+import { data } from "react-router-dom";
 
 const LoginPage = () => {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+    } = useForm();
+
+    const handleSubmitPress = (data: any) => {
+        console.log(data);
+    };
+
     return (
         <>
             <Header />
@@ -32,14 +44,25 @@ const LoginPage = () => {
 
                     <LoginInputContainer>
                         <p>E-mail</p>
-                        <CustomInput placeholder="Digite seu e-mail" />
+                        <CustomInput
+                            hasError={!!errors?.email}
+                            placeholder="Digite seu e-mail"
+                            {...register("email", { required: true })}
+                        />
                     </LoginInputContainer>
                     <LoginInputContainer>
                         <p>Senha</p>
-                        <CustomInput placeholder="Digite sua senha" />
+                        <CustomInput
+                            hasError={!!errors?.password}
+                            placeholder="Digite sua senha"
+                            {...register("password", { required: true })}
+                        />
                     </LoginInputContainer>
 
-                    <CustomButton startIcon={<FiLogIn size={18} />}>
+                    <CustomButton
+                        startIcon={<FiLogIn size={18} />}
+                        onClick={() => handleSubmit(handleSubmitPress)()}
+                    >
                         Entrar
                     </CustomButton>
                 </LoginContent>
