@@ -1,4 +1,7 @@
+import { signOut } from "firebase/auth";
+import { useContext } from "react";
 import { BsCart3 } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 // Styles
 import {
@@ -9,12 +12,18 @@ import {
 } from "./header.styles";
 
 // Utilities
-import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+
 import { auth } from "../../config/firebase.config";
+import { UserContext } from "../../contexts/user.context";
 
 const Header = () => {
     const navigate = useNavigate();
+
+    const { isAuthenticated } = useContext(UserContext);
+
+    const handleHomeClick = () => {
+        navigate("/");
+    };
 
     const handleLoginClick = () => {
         navigate("/login");
@@ -23,15 +32,31 @@ const Header = () => {
     const handleSignUpClick = () => {
         navigate("/sign-up");
     };
+
     return (
         <HeaderContainer>
-            <HeaderTitle>CLUB CLOTHING</HeaderTitle>
+            <HeaderTitle
+                style={{ cursor: "pointer" }}
+                onClick={handleHomeClick}
+            >
+                CLUB CLOTHING
+            </HeaderTitle>
 
             <HeaderItems>
                 <HeaderItem>Explorar</HeaderItem>
-                <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
-                <HeaderItem onClick={handleSignUpClick}>Criar Conta</HeaderItem>
-                <HeaderItem onClick={() => signOut(auth)}>Sair</HeaderItem>
+                {!isAuthenticated && (
+                    <>
+                        <HeaderItem onClick={handleLoginClick}>
+                            Login
+                        </HeaderItem>
+                        <HeaderItem onClick={handleSignUpClick}>
+                            Criar Conta
+                        </HeaderItem>
+                    </>
+                )}
+                {isAuthenticated && (
+                    <HeaderItem onClick={() => signOut(auth)}>Sair</HeaderItem>
+                )}
                 <HeaderItem>
                     <BsCart3 size={25} />
                     <p style={{ marginLeft: 5 }}>5</p>
