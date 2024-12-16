@@ -8,7 +8,7 @@ import {
     User,
 } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Components
@@ -18,6 +18,7 @@ import CustomInput from "../../components/custom-input/custom-input.component";
 import validator from "validator";
 import { useForm } from "react-hook-form";
 import InputErrorMessage from "../../components/input-error-message/input-error-message.component";
+import Loading from "../../components/loading/loading.component";
 
 // Styles
 import {
@@ -45,6 +46,8 @@ const LoginPage = () => {
         formState: { errors },
     } = useForm<LoginForm>();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const { isAuthenticated } = useContext(UserContext);
 
     const navigate = useNavigate();
@@ -57,6 +60,8 @@ const LoginPage = () => {
 
     const handleSubmitPress = async (data: LoginForm) => {
         try {
+            setIsLoading(true);
+
             const userCredentials = await signInWithEmailAndPassword(
                 auth,
                 data.email,
@@ -76,11 +81,15 @@ const LoginPage = () => {
                 });
                 return false;
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const handleSignInWithGooglePress = async () => {
         try {
+            setIsLoading(true);
+
             const userCredentials = await signInWithPopup(auth, googleProvider);
 
             const querySnapshot = await getDocs(
@@ -105,12 +114,16 @@ const LoginPage = () => {
             console.log(user);
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <>
             <Header />
+
+            {isLoading && <Loading />}
 
             <LoginContainer>
                 <LoginContent>
