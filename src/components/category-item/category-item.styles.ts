@@ -5,7 +5,9 @@ interface CategoryItemContainerProps {
     backgroundImage: string;
 }
 
-export const CategoryItemContainer = styled.div<CategoryItemContainerProps>`
+export const CategoryItemContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => prop !== "backgroundImage",
+})<CategoryItemContainerProps>`
     display: flex;
     align-items: center;
     justify-content: center;

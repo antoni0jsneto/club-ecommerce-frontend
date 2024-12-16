@@ -5,7 +5,9 @@ type CustomInputContainerProps = {
     hasError?: boolean;
 };
 
-export const CustomInputContainer = styled.input<CustomInputContainerProps>`
+export const CustomInputContainer = styled.input.withConfig({
+    shouldForwardProp: (prop) => prop !== "hasError",
+})<CustomInputContainerProps>`
     border: none;
     width: 100%;
     background-color: ${Colors.input.background};
