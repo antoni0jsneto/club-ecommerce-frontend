@@ -11,6 +11,7 @@ import HomePage from "./pages/home/home.page";
 import ExplorePage from "./pages/explore/explore.page";
 import LoginPage from "./pages/login/login.page";
 import SignUpPage from "./pages/sign-up/sign-up.page";
+import CategoryDetailsPage from "./pages/category-details/category-details.page";
 
 // Utilities
 import { UserContext } from "./contexts/user.context";
@@ -57,6 +58,7 @@ const App: FunctionComponent = () => {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/category/:id" element={<CategoryDetailsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
             </Routes>
