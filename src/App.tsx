@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 // Components
 import Loading from "./components/loading/loading.component";
+import Cart from "./components/cart/cart.component";
 
 // Pages
 import HomePage from "./pages/home/home.page";
@@ -62,6 +63,8 @@ const App: FunctionComponent = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
             </Routes>
+
+            <Cart />
         </BrowserRouter>
     );
 };
