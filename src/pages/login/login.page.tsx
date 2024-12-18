@@ -67,7 +67,6 @@ const LoginPage = () => {
                 data.email,
                 data.password
             );
-            console.log(userCredentials);
         } catch (error) {
             console.log(error);
             const _error = error as AuthError;
@@ -110,8 +109,6 @@ const LoginPage = () => {
                     provider: "google",
                 });
             }
-
-            console.log(user);
         } catch (error) {
             console.log(error);
         } finally {
