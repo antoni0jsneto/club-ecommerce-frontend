@@ -40,7 +40,9 @@ const CartContextProvider: FunctionComponent<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const [products, setProducts] = useState<CartProduct[]>([]);
+    const [products, setProducts] = useState<CartProduct[]>(() =>
+        JSON.parse(localStorage.getItem("cartProducts") || "[]")
+    );
 
     useEffect(() => {
         const productsFromLocalStorage = JSON.parse(
