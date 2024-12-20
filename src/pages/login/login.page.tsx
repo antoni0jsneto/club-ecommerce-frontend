@@ -1,15 +1,9 @@
 import { BsGoogle } from "react-icons/bs";
 import { FiLogIn } from "react-icons/fi";
-import {
-    AuthError,
-    AuthErrorCodes,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    User,
-} from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Components
 import Header from "../../components/header/header.component";
@@ -31,7 +25,13 @@ import {
 
 // Utilities
 import { auth, db, googleProvider } from "../../config/firebase.config";
-import { UserContext } from "../../contexts/user.context";
+import {
+    AuthError,
+    AuthErrorCodes,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    User,
+} from "firebase/auth";
 
 interface LoginForm {
     email: string;
@@ -48,7 +48,9 @@ const LoginPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const { isAuthenticated } = useContext(UserContext);
+    const { isAuthenticated } = useSelector(
+        (rootReducer: any) => rootReducer.userReducer
+    );
 
     const navigate = useNavigate();
 

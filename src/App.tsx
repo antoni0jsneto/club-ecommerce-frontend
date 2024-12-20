@@ -1,7 +1,6 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { FunctionComponent, useContext, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
 
 // Components
 import Loading from "./components/loading/loading.component";
@@ -18,42 +17,59 @@ import CheckoutPage from "./pages/checkout/checkout.page";
 import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
 
 // Utilities
-import { UserContext } from "./contexts/user.context";
 import { auth, db } from "./config/firebase.config";
 import { userConverter } from "./converters/firestore.converters";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 const App: FunctionComponent = () => {
     const [isInitializing, setIsInitializing] = useState(true);
 
-    const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext);
+    const dispatch = useDispatch();
 
-    onAuthStateChanged(auth, async (user) => {
-        const isSigningOut = isAuthenticated && !user;
+    const { isAuthenticated } = useSelector(
+        (rootReducer: any) => rootReducer.userReducer
+    );
 
-        if (isSigningOut) {
-            logoutUser();
+    // Pra usar com context api
+    // const { isAuthenticated, loginUser, logoutUser } = useContext(UserContext);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, async (user) => {
+            const isSigningOut = isAuthenticated && !user;
+
+            if (isSigningOut) {
+                // Pra usar com context api
+                // logoutUser();
+
+                dispatch({ type: "LOGOUT_USER" });
+
+                return setIsInitializing(false);
+            }
+
+            const isSigningIn = !isAuthenticated && user;
+
+            if (isSigningIn) {
+                const querySnapshot = await getDocs(
+                    query(
+                        collection(db, "users").withConverter(userConverter),
+                        where("id", "==", user.uid)
+                    )
+                );
+
+                const userFromFirestore = querySnapshot.docs[0]?.data();
+
+                // Pra usar com context api
+                // loginUser(userFromFirestore);
+
+                dispatch({ type: "LOGIN_USER", payload: userFromFirestore });
+
+                return setIsInitializing(false);
+            }
+
             return setIsInitializing(false);
-        }
-
-        const isSigningIn = !isAuthenticated && user;
-
-        if (isSigningIn) {
-            const querySnapshot = await getDocs(
-                query(
-                    collection(db, "users").withConverter(userConverter),
-                    where("id", "==", user.uid)
-                )
-            );
-
-            const userFromFirestore = querySnapshot.docs[0]?.data();
-
-            loginUser(userFromFirestore);
-
-            return setIsInitializing(false);
-        }
-
-        return setIsInitializing(false);
-    });
+        });
+    }, [dispatch]);
 
     if (isInitializing) return <Loading />;
 
