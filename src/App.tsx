@@ -21,6 +21,7 @@ import { auth, db } from "./config/firebase.config";
 import { userConverter } from "./converters/firestore.converters";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
 
 const App: FunctionComponent = () => {
     const [isInitializing, setIsInitializing] = useState(true);
@@ -42,7 +43,7 @@ const App: FunctionComponent = () => {
                 // Pra usar com context api
                 // logoutUser();
 
-                dispatch({ type: "LOGOUT_USER" });
+                dispatch(logoutUser());
 
                 return setIsInitializing(false);
             }
@@ -62,7 +63,7 @@ const App: FunctionComponent = () => {
                 // Pra usar com context api
                 // loginUser(userFromFirestore);
 
-                dispatch({ type: "LOGIN_USER", payload: userFromFirestore });
+                dispatch(loginUser(userFromFirestore));
 
                 return setIsInitializing(false);
             }
