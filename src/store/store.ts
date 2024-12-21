@@ -1,7 +1,10 @@
-import { applyMiddleware, createStore } from "redux";
+import { createStore } from "redux";
 import rootReducer from "./root-reducer";
-import logger from "redux-logger";
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer);
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

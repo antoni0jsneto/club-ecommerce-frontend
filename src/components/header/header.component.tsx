@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { BsCart3 } from "react-icons/bs";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -17,6 +16,7 @@ import { CartContext } from "../../contexts/cart.context";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase.config";
 import { logoutUser } from "../../store/reducers/user/user.actions";
+import { useDispatch } from "../../hooks/useDispath.hooks";
 
 const Header = () => {
     const navigate = useNavigate();

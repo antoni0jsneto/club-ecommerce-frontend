@@ -1,35 +1,36 @@
+import { onAuthStateChanged } from "firebase/auth";
 import { FunctionComponent, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+// Pages
+import HomePage from "./pages/home/home.page";
+import LoginPage from "./pages/login/login.page";
+import SignUpPage from "./pages/sign-up/sign-up.page";
+import ExplorePage from "./pages/explore/explore.page";
+import CheckoutPage from "./pages/checkout/checkout.page";
+import CategoryDetailsPage from "./pages/category-details/category-details.page";
+import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
 
 // Components
 import Loading from "./components/loading/loading.component";
 import Cart from "./components/cart/cart.component";
 import AuthenticationGuard from "./guards/authentication.guard";
 
-// Pages
-import HomePage from "./pages/home/home.page";
-import ExplorePage from "./pages/explore/explore.page";
-import LoginPage from "./pages/login/login.page";
-import SignUpPage from "./pages/sign-up/sign-up.page";
-import CategoryDetailsPage from "./pages/category-details/category-details.page";
-import CheckoutPage from "./pages/checkout/checkout.page";
-import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.page";
-
 // Utilities
 import { auth, db } from "./config/firebase.config";
 import { userConverter } from "./converters/firestore.converters";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
 import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
+import { useAppSelector } from "./hooks/redux.hooks";
+import { useDispatch } from "./hooks/useDispath.hooks";
 
 const App: FunctionComponent = () => {
     const [isInitializing, setIsInitializing] = useState(true);
 
     const dispatch = useDispatch();
 
-    const { isAuthenticated } = useSelector(
-        (rootReducer: any) => rootReducer.userReducer
+    const { isAuthenticated } = useAppSelector(
+        (rootReducer) => rootReducer.userReducer
     );
 
     // Pra usar com context api

@@ -3,7 +3,6 @@ import { FiLogIn } from "react-icons/fi";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 // Components
 import Header from "../../components/header/header.component";
@@ -32,6 +31,7 @@ import {
     signInWithPopup,
     User,
 } from "firebase/auth";
+import { useAppSelector } from "../../hooks/redux.hooks";
 
 interface LoginForm {
     email: string;
@@ -48,8 +48,8 @@ const LoginPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const { isAuthenticated } = useSelector(
-        (rootReducer: any) => rootReducer.userReducer
+    const { isAuthenticated } = useAppSelector(
+        (rootReducer) => rootReducer.userReducer
     );
 
     const navigate = useNavigate();
