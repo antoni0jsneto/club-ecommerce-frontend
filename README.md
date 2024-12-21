@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+# Club E-commerce Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este repositório contém o código-fonte do frontend para o projeto **Club E-commerce**. Ele foi desenvolvido com React e utiliza o Yarn como gerenciador de pacotes.
 
-## Available Scripts
+## Pré-requisitos
 
-In the project directory, you can run:
+Antes de começar, certifique-se de ter os seguintes softwares instalados na sua máquina:
 
-### `yarn start`
+-   **Node.js** (versão 18 ou superior) - [Download Node.js](https://nodejs.org/)
+-   **React** (instalado como parte do projeto com Node.js)
+-   **Yarn** (versão 1.x ou superior) - [Instruções de instalação do Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Instalação
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Siga os passos abaixo para configurar e executar o projeto localmente:
 
-### `yarn test`
+1. **Clone este repositório**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ```bash
+    git clone https://github.com/antoni0jsneto/club-ecommerce-frontend.git
+    cd seu-repositorio
 
-### `yarn build`
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Instale as dependências**:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    yarn install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```
 
-### `yarn eject`
+3. **Inicie o servidor de desenvolvimento**:
+    ```bash
+    yarn start
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+O projeto será executado em http://localhost:3000 por padrão.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Scripts Disponíveis
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Aqui estão alguns scripts úteis que você pode executar no projeto:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-   yarn start: Inicia o servidor de desenvolvimento.
+-   yarn build: Gera uma build otimizada para produção.
+-   yarn test: Executa os testes automatizados (se configurado).
+-   yarn lint: Verifica o código em busca de erros ou problemas de estilo (se configurado).
 
-## Learn More
+## Contribuição
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contribuições são bem-vindas! Por favor, abra uma issue ou envie um pull request com suas sugestões.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Problemas ou Dúvidas?
+
+Se você encontrar algum problema ou tiver dúvidas, fique à vontade para abrir uma issue.
+
+Obrigado por usar o Club E-commerce Frontend! 🚀
