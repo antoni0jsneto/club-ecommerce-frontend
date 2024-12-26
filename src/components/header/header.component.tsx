@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "../../hooks/useDispath.hooks";
 
 // Styles
 import {
@@ -16,7 +17,7 @@ import { CartContext } from "../../contexts/cart.context";
 import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase.config";
 import { logoutUser } from "../../store/reducers/user/user.actions";
-import { useDispatch } from "../../hooks/useDispath.hooks";
+import { toggleCart } from "../../store/reducers/cart/cart.actions";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Header = () => {
 
     const dispatch = useDispatch();
 
-    const { productsCount, toggleCart } = useContext(CartContext);
+    const { productsCount } = useContext(CartContext);
 
     const handleHomeClick = () => {
         navigate("/");
@@ -48,6 +49,10 @@ const Header = () => {
     const handleSignOutClick = () => {
         dispatch(logoutUser());
         signOut(auth);
+    };
+
+    const handleCartClick = () => {
+        dispatch(toggleCart());
     };
 
     return (
@@ -76,7 +81,7 @@ const Header = () => {
                     <HeaderItem onClick={handleSignOutClick}>Sair</HeaderItem>
                 )}
 
-                <HeaderItem onClick={toggleCart}>
+                <HeaderItem onClick={handleCartClick}>
                     <BsCart3 size={25} />
                     <p style={{ marginLeft: 5 }}>{productsCount}</p>
                 </HeaderItem>
