@@ -17,12 +17,12 @@ import {
 
 // Utilities
 import { useAppSelector } from "../../hooks/redux.hooks";
-import { useDispatch } from "react-redux";
 import { toggleCart } from "../../store/reducers/cart/cart.actions";
 import {
     selectProductsCount,
     selectProductsTotalPrice,
 } from "../../store/reducers/cart/cart.selectors";
+import { useDispatch } from "../../hooks/useDispath.hooks";
 
 const Cart: FunctionComponent = () => {
     const { isVisible, products } = useAppSelector(

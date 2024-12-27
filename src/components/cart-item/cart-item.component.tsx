@@ -12,12 +12,12 @@ import {
 
 // Utilities
 import CartProduct from "../../types/cart.types";
-import { useDispatch } from "react-redux";
 import {
     decreaseProductQuantity,
     increaseProductQuantity,
     removeProductFromCart,
 } from "../../store/reducers/cart/cart.actions";
+import { useDispatch } from "../../hooks/useDispath.hooks";
 
 interface CartItemProps {
     product: CartProduct;

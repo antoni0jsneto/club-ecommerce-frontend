@@ -18,8 +18,8 @@ import CustomButton from "../../components/custom-button/custom-button.component
 
 // Utilities
 import Colors from "../../theme/theme.colors";
-import { useDispatch } from "react-redux";
 import { clearProducts } from "../../store/reducers/cart/cart.actions";
+import { useDispatch } from "../../hooks/useDispath.hooks";
 
 const PaymentConfirmationPage: FunctionComponent = () => {
     const dispatch = useDispatch();
