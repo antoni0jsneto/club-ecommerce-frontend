@@ -16,17 +16,22 @@ import {
 } from "./cart.styles";
 
 // Utilities
-import { CartContext } from "../../contexts/cart.context";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
 import { toggleCart } from "../../store/reducers/cart/cart.actions";
+import {
+    selectProductsCount,
+    selectProductsTotalPrice,
+} from "../../store/reducers/cart/cart.selectors";
 
 const Cart: FunctionComponent = () => {
     const { isVisible, products } = useAppSelector(
         (state) => state.cartReducer
     );
 
-    const { productsTotalPrice, productsCount } = useContext(CartContext);
+    const productsTotalPrice = useAppSelector(selectProductsTotalPrice);
+
+    const productsCount = useAppSelector(selectProductsCount);
 
     const navigate = useNavigate();
 

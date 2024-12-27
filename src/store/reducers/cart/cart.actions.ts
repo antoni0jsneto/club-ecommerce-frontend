@@ -9,3 +9,20 @@ export const addProductToCart = (payload: Product) => {
         payload,
     };
 };
+
+export const removeProductFromCart = (payload: string) => ({
+    type: CartActionTypes.RemoveProductFromCart,
+    payload,
+});
+
+export const increaseProductQuantity = (payload: string) => ({
+    type: CartActionTypes.IncreaseProductQuantity,
+    payload,
+});
+
+export const decreaseProductQuantity = (payload: string) => ({
+    type: CartActionTypes.DecreaseProductQuantity,
+    payload,
+});
+
+export const clearProducts = () => ({ type: CartActionTypes.ClearProducts });

@@ -3,15 +3,11 @@ import CartActionTypes from "./cart.action-types";
 
 interface InitialState {
     isVisible: boolean;
-    productsTotalPrice: number;
-    productsCount: number;
     products: CartProduct[];
 }
 
 const initialState: InitialState = {
     isVisible: false,
-    productsTotalPrice: 0,
-    productsCount: 0,
     products: [],
 };
 
@@ -19,6 +15,7 @@ const cartReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case CartActionTypes.toggleCart:
             return { ...state, isVisible: !state.isVisible };
+
         case CartActionTypes.AddProductToCart: {
             const product = action.payload;
 
@@ -31,8 +28,8 @@ const cartReducer = (state = initialState, action: any) => {
                     ...state,
                     products: state.products.map((item) =>
                         item.id === product.id
-                            ? { ...item, quantity: item.quantity + 1 }
-                            : item
+                            ? { ...product, quantity: product.quantity + 1 }
+                            : product
                     ),
                 };
             }
@@ -42,6 +39,52 @@ const cartReducer = (state = initialState, action: any) => {
                 products: [...state.products, { ...product, quantity: 1 }],
             };
         }
+
+        case CartActionTypes.RemoveProductFromCart: {
+            const productId = action.payload;
+
+            return {
+                ...state,
+                products: state.products.filter(
+                    (product) => product.id !== productId
+                ),
+            };
+        }
+
+        case CartActionTypes.IncreaseProductQuantity: {
+            const productId = action.payload;
+
+            return {
+                ...state,
+                products: state.products.map((product) =>
+                    product.id === productId
+                        ? { ...product, quantity: product.quantity + 1 }
+                        : product
+                ),
+            };
+        }
+
+        case CartActionTypes.DecreaseProductQuantity: {
+            const productId = action.payload;
+
+            return {
+                ...state,
+                products: state.products
+                    .map((product) =>
+                        product.id === productId
+                            ? { ...product, quantity: product.quantity - 1 }
+                            : product
+                    )
+                    .filter((product) => product.quantity > 0),
+            };
+        }
+
+        case CartActionTypes.ClearProducts:
+            return {
+                ...state,
+                products: [],
+            };
+
         default:
             return state;
     }
