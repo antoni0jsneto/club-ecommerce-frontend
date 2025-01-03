@@ -18,7 +18,7 @@ import CustomButton from "../../components/custom-button/custom-button.component
 
 // Utilities
 import Colors from "../../theme/theme.colors";
-import { clearProducts } from "../../store/reducers/cart/cart.actions";
+import { clearProducts } from "../../store/toolkit/cart/cart.slice";
 import { useDispatch } from "../../hooks/useDispath.hooks";
 
 const PaymentConfirmationPage: FunctionComponent = () => {

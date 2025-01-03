@@ -5,6 +5,22 @@ interface CartContainerProps {
     isVisible: boolean;
 }
 
+export const CartHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+`;
+
+export const ClearCartButton = styled.button`
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+        color: ${Colors.primary};
+    }
+`;
+
 export const CartContainer = styled.div.withConfig({
     shouldForwardProp: (prop) => prop !== "isVisible",
 })<CartContainerProps>`
@@ -24,6 +40,7 @@ export const CartContainer = styled.div.withConfig({
 
     p {
         color: ${Colors.text.dark};
+        margin-bottom: 0px;
     }
 `;
 

@@ -11,13 +11,15 @@ import {
     CartContainer,
     CartContent,
     CartEscapeArea,
+    CartHeader,
     CartTitle,
     CartTotal,
+    ClearCartButton,
 } from "./cart.styles";
 
 // Utilities
 import { useAppSelector } from "../../hooks/redux.hooks";
-import { toggleCart } from "../../store/reducers/cart/cart.actions";
+import { clearProducts, toggleCart } from "../../store/toolkit/cart/cart.slice";
 import {
     selectProductsCount,
     selectProductsTotalPrice,
@@ -46,11 +48,26 @@ const Cart: FunctionComponent = () => {
         dispatch(toggleCart());
     };
 
+    const handleClearCartClick = () => {
+        dispatch(clearProducts());
+    };
+
     return (
         <CartContainer isVisible={isVisible}>
             <CartEscapeArea onClick={handleEscapeAreaClick} />
             <CartContent>
-                <CartTitle>Seu Carrinho</CartTitle>
+                <CartHeader className="cart-header">
+                    <CartTitle>Seu Carrinho</CartTitle>
+
+                    {productsCount > 0 && (
+                        <ClearCartButton
+                            className="clear-cart"
+                            onClick={handleClearCartClick}
+                        >
+                            Limpar Carrinho
+                        </ClearCartButton>
+                    )}
+                </CartHeader>
 
                 {products.map((product) => (
                     <CartItem key={product.id} product={product} />

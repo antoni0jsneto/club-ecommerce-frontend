@@ -4,7 +4,7 @@ import { useDispatch } from "../../hooks/useDispath.hooks";
 
 // Utilities
 import Product from "../../types/product.types";
-import { addProductToCart } from "../../store/reducers/cart/cart.actions";
+import { addProductToCart } from "../../store/toolkit/cart/cart.slice";
 
 // Styles
 import {
