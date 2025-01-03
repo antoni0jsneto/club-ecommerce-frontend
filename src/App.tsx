@@ -20,7 +20,7 @@ import AuthenticationGuard from "./guards/authentication.guard";
 // Utilities
 import { auth, db } from "./config/firebase.config";
 import { userConverter } from "./converters/firestore.converters";
-import { loginUser, logoutUser } from "./store/reducers/user/user.actions";
+import { loginUser, logoutUser } from "./store/toolkit/user/user.slice";
 import { useAppSelector } from "./hooks/redux.hooks";
 import { useDispatch } from "./hooks/useDispath.hooks";
 
