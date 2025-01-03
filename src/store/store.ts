@@ -1,5 +1,7 @@
-import { createStore } from "redux";
+import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import rootReducer from "./root-reducer";
+import logger from "redux-logger";
+import { thunk } from "redux-thunk";
 
 // @ts-ignore
 import storage from "redux-persist/lib/storage";
@@ -14,12 +16,17 @@ const persistConfig = {
     whitelist: ["cartReducer"],
 };
 
-const persistedRootReducer: typeof rootReducer = persistReducer(
-    persistConfig,
-    rootReducer
-);
+// const persistedRootReducer: typeof rootReducer = persistReducer(
+//     persistConfig,
+//     rootReducer
+// );
 
-export const store = createStore(persistedRootReducer);
+const persistedRootReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = createStore(
+    persistedRootReducer,
+    applyMiddleware(thunk, logger)
+);
 export const persistedStore = persistStore(store);
 
 export type RootState = ReturnType<typeof rootReducer>;
