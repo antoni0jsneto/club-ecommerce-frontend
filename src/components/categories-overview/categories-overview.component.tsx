@@ -9,7 +9,7 @@ import CategoryOverview from "../category-overview/category-overview.component";
 import Loading from "../loading/loading.component";
 
 // Utilities
-import { fetchCategories } from "../../store/reducers/category/category.actions";
+import { fetchCategories } from "../../store/toolkit/category/category.slice";
 import { useAppSelector } from "../../hooks/redux.hooks";
 
 const CategoriesOverview: FunctionComponent = () => {
